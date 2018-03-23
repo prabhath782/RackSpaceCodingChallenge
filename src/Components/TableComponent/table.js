@@ -1,15 +1,20 @@
+//importing components
 import React, { Component } from 'react';
 import{connect} from 'react-redux';
 
 import TableContent from '../TableContentComponent/tableContent';
 import Fetch from '../../Store/Actions/fetchData';
 
- class Table extends Component {
 
+//Class Component creating a table
+ export class Table extends Component {
+
+// lifecycle-hook method calling action-creator in store    
     componentDidMount(){
         this.props.postRequest()       
     }
 
+    // render method rendering child tablecontent child components return jsx elements
   render() {      
     return (
       <div>
@@ -35,4 +40,5 @@ const mapDispatchToProps = (dispatch)=>{
     }   
 }
 
+//Connect connecting to store to access state of the store
 export default connect(mapStateToProps,mapDispatchToProps)(Table);

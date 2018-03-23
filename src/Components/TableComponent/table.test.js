@@ -1,16 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import {configure,shallow} from 'enzyme';
-import Aapter from 'enzyme-adapter-react-16';
+import { configure, shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
-import Table from './table';
-import TableContent from '../TableContentComponent/tableContent';
+import { Table } from './table';
+import {TableContent} from '../TableContentComponent/tableContent';
 
-configure({adapter:new Aapter()});
+configure({adapter: new Adapter()});
 
-describe('<TableContent/>',()=>{
-    it('should render one <TableContent/> element',()=>{
-        const wrapper = shallow(<Table/>);
-        expect(wrapper.find(TableContent)).toHaveLength(1);
+describe('Test Table Component', () => {
+    let wrapper;
+    
+    beforeEach(() => {
+        wrapper = shallow(<Table postRequest ={()=>{}}/>);
+    });
+
+    it('should render <Teast /> when receiving ingredients', () => {
+        expect(wrapper.find(TableContent));
+    });
+
+    it('Testing props',()=>{
+        expect(wrapper.prop().loading).to.be.defined
     })
-})
+});

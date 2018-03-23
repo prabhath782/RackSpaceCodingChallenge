@@ -1,54 +1,58 @@
+//importing components
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
-import { Table,Loader,Dimmer,Image,Segment,Message } from 'semantic-ui-react'
+import { Table,Message} from 'semantic-ui-react'
 import {connect} from 'react-redux';
-import sortColumn from '../../Store/Actions/Sort';
+import Proptypes from 'prop-types'
 
+import sortColumn from '../../Store/Actions/Sort';
 import Loading from './loading';
 
-class TableContent extends Component   {  
+//Class component creating loading all the data of the table.
+export class TableContent extends Component   {  
     constructor(props){
      super(props)
      this.onSort = this.onSort.bind(this);
+     this.loadTable = this.loadTable.bind(this);
+
+    }
+//componentDidUpdate lifecycle hook    
+    componentDidUpdate(){
+        this.error = this.props.error
+        this.tableContent = this.props.data;  
+    }   
+
+    shouldComponentUpdate(nextProps,nextState){
+        return nextProps.data !== this.props.data
     }
 
+//Method calling onSort action creator sorting table onclick on table header    
 onSort(key){
-    console.log('thead'+key+'is clicked')
-    console.log(this.props.data)
     this.props.onSort(key,this.props.data)
 }
 
-componentDidUpdate(){
-    console.log(this.props.error)
-    this.error = this.props.error
+loadTable(data){
+    if(data){
+        const tableValues = data.map(data =>(
+            <Table.Row key = {data.id}>
+                <Table.Cell>{data.id}</Table.Cell>
+                <Table.Cell>{data.userId}</Table.Cell>
+                <Table.Cell>{data.title}</Table.Cell>
+                <Table.Cell>{data.body}</Table.Cell>
+            </Table.Row>)
+        )
+        return tableValues
+    }
     
+    return {}
 }
 
+// render method rendering the table components return jsx elements
 render(){
-console.log(this.props.loading)
+ // intializing loading component to load when fetching data   
+   const loading = (<Loading/>)
+   const result = this.props.loading ? loading:this.loadTable(this.props.data)
 
-
-    const loading = (
-        <Table.Row>
-            <Table.Cell>
-        <Dimmer active inverted>
-          <Loader size='massive' />
-        </Dimmer>
-        <Image src="https://semantic-ui.com/images/wireframe/short-paragraph.png"/>
-        </Table.Cell>
-      </Table.Row>      
-    )
-
-   const tableBody = this.props.data.map(data =>(
-        <Table.Row key = {data.id}>
-            <Table.Cell>{data.id}</Table.Cell>
-            <Table.Cell>{data.userId}</Table.Cell>
-            <Table.Cell>{data.title}</Table.Cell>
-            <Table.Cell>{data.body}</Table.Cell>
-        </Table.Row>)
-   );
-
-   const result = this.props.loading ? loading:tableBody
+   // Jsx elements for errors when their is error ing fetching
    const error = (
     <Table.Row>
         <Table.Cell>
@@ -61,13 +65,13 @@ console.log(this.props.loading)
    const finalResult = this.props.error?error:result
 
     return (
-        <Table celled className="ui unstackable striped table segment">
+        <Table id = 'table' celled className="ui unstackable striped table segment">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell name = 'id' onClick = {()=> this.onSort('id') }>Id</Table.HeaderCell>
-              <Table.HeaderCell name = 'userid' onClick = {()=> this.onSort('userId') }>userId</Table.HeaderCell>
-              <Table.HeaderCell name = 'title' onClick = {()=> this.onSort('title') }>Title</Table.HeaderCell>
-              <Table.HeaderCell name = 'body' onClick = {()=> this.onSort('body') }>Body</Table.HeaderCell>
+              <Table.HeaderCell style ={{cursor:'pointer'}} name = 'id' onClick = {()=> this.onSort('id') }>Id</Table.HeaderCell>
+              <Table.HeaderCell style ={{cursor:'pointer'}} name = 'userid' onClick = {()=> this.onSort('userId') }>userId</Table.HeaderCell>
+              <Table.HeaderCell style ={{cursor:'pointer'}} name = 'title' onClick = {()=> this.onSort('title') }>Title</Table.HeaderCell>
+              <Table.HeaderCell style ={{cursor:'pointer'}} name = 'body' onClick = {()=> this.onSort('body') }>Body</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
            <Table.Body>
@@ -80,10 +84,12 @@ console.log(this.props.loading)
 
 }
 
+
 const mapDispatchToProps = (dispatch)=>{
     return{
         onSort:(key,data)=>{dispatch(sortColumn(key,data))}
     }
 }
 
+//connect connecting to store to access the state of the store
 export default connect(null,mapDispatchToProps)(TableContent)

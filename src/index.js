@@ -1,3 +1,4 @@
+//importing all required components
 import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
@@ -10,10 +11,12 @@ import './index.css';
 import App from './App';
 import tableReducer from './Store/reducers/tableReducer'
 
+// Combining all the reducers using combineReducer
 const rootReducer = combineReducers({
     table:tableReducer
 })
 
+// Creating store passing reducer and applying middlewares
 const store = createStore(rootReducer,applyMiddleware(thunk));
 
 const app = (

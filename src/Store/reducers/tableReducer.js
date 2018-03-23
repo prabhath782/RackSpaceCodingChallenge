@@ -1,16 +1,19 @@
+// importing actiontypes
 import  * as ActionTypes from '../Actions/actionTypes';
 
+// intialstate of the store
 const intialState = {
     data:[],
     loading:true,
     error:null
 }
 
+// reducer
 const tableReducer = (state = intialState,action)=>{
  
+    //checking action type and updating the state of the store
     switch(action.type){
         case ActionTypes.FETCH_DATA:
-        console.log('reducer');
         return {
               ...state,
               ...state.data,
@@ -40,4 +43,5 @@ const tableReducer = (state = intialState,action)=>{
 
 }
 
+//exporting reducer
 export default tableReducer

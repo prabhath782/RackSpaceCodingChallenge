@@ -1,3 +1,4 @@
+//importing actiontypes
 import * as ActionTypes from './actionTypes';
 
 const compareBy=(key)=>{
@@ -8,6 +9,7 @@ const compareBy=(key)=>{
    }
 }
 
+// After sort completion returning type and sorted data to reducer with loading value
 const sortComplete = (data)=>{
      return {
         type: ActionTypes.FETCH_DATA,
@@ -17,10 +19,11 @@ const sortComplete = (data)=>{
 
 }
 
+// dispatches action sortcomplete
 const sortColumn = (key,data)=>{
    let arrayData = [...data];
    arrayData.sort(compareBy(key))
-  return dispatch=>{
+   return dispatch=>{
     return dispatch(sortComplete(arrayData))
   }
   
