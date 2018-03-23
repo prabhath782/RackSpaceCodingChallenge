@@ -65,7 +65,11 @@ render(){
    const finalResult = this.props.error?error:result
 
     return (
-        <Table id = 'table' celled className="ui unstackable striped table segment">
+        <Table id = 'table'
+               color = {'red'}
+               style = {{margin:'10px'}}
+               celled
+               className="ui unstackable striped table segment">
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell style ={{cursor:'pointer'}} name = 'id' onClick = {()=> this.onSort('id') }>Id</Table.HeaderCell>

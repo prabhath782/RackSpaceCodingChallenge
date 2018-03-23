@@ -9,9 +9,10 @@ const loading = ()=>{
         <Table.Row>
                <Table.Cell>
                 <Dimmer active inverted>
-                 <Loader size='massive' />
+                 <Loader size='massive' > Loading Table</Loader>
                 </Dimmer>
                  <Image  className = 'img'src="https://semantic-ui.com/images/wireframe/short-paragraph.png"/>
+
                </Table.Cell>
         </Table.Row> 
         )
